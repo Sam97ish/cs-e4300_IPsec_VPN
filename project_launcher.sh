@@ -9,9 +9,9 @@
 ##
 ## DATE: [03/01/2022]
 ## 
-## VERSION: 0.8
+## VERSION: 0.9
 ##
-## USAGE: project_launcher.sh [-a|b|h]
+## USAGE: project_launcher.sh [-a|b|c|d|s|m|h]
 ##
 ## EXIT CODES:
 ##      1 ==> vagrant up error, check vagrant_up_error.logs in logs folder.
