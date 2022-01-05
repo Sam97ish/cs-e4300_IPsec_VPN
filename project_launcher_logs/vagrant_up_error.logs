@@ -1,0 +1,3 @@
+Guest-specific operations were attempted on a machine that is not
+ready for guest communication. This should not happen and a bug
+should be reported.
