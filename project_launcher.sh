@@ -38,7 +38,7 @@ Help(){
 
    echo "A manager script to quickly setup the VMs and monitor their network."
    echo
-   echo "Syntax: project_launcher.sh [-a|b|h]"
+   echo "Syntax: project_launcher.sh [-a|b|c|d|s|m|h]"
    echo "options:"
    echo
    echo "-a     Runs vagrant up on site A VMs destroying them if they're already up. The Router and Cloud VMs will not be destroyed if already up by a previous call."
