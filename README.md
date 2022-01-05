@@ -57,7 +57,7 @@ vagrant up
 ---
 - `project_launcher.sh -a`<br/> ==> Launches Site A (one client and gateway), Router and Cloud (one server and gateway).
 - `project_launcher.sh -b`<br/> ==> Launches Site B (one client and gateway), Router and Cloud (one server and gateway).
-- `project_launcher.sh -s`<br/> ==> Starts multiple ssh sessions in new terminals to all Cloud servers and Site clients who are up at the moment. This allows for easier testing by [launching client and server apps](#markdown-header-client-and-server-apps).
+- `project_launcher.sh -s`<br/> ==> Starts multiple ssh sessions in new terminals to all Cloud servers and Site clients who are up at the moment. This allows for easier testing by [launching client and server apps](#client-and-server-apps).
 - `project_launcher.sh -m`<br/> ==> Start monitoring the network through the Router VM. Essentially runs `xterm -hold -e "vagrant ssh router -t -c 'sudo tcpdump -i enp0s8'"&`
 - `More` might be added later. 
 
