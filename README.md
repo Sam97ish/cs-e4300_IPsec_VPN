@@ -14,7 +14,7 @@ The testbed is initially configured so that the clients (IoT devices) in each cu
 
 Each element of the testbed (i.e. client, server, gateway router is a separate VM that is created based on the base VM. The linked clone VMs are quite memory efficient, and the amount of available memory should not be an issue. The process for creating the testbed will be explained below.
 
-The customer's local network uses the private IP address range 10.1.0.0/16. The client gateways have NATs. The cloud-side gateway, on the other hand, is currently a simple gateway router with no NAT or even firewall configured. The address space 172.16.0.0/12 simulates public, routable IPv4 addresses (even though it really is a private address range). The cloud servers in this case are configured with routable IP addresses. This way, the clients can start communication with the data center, but not the other way around. You may want to change this so that the cloud servers are in a private address space, both for better security and to save on IPv4 addresses.
+The customer's local network uses the private IP address range 10.1.0.0/16. The client gateways have NATs. The cloud-side gateway, on the other hand, is currently a simple gateway router with no NAT or even firewall configured. The address space 172.16.0.0/12 simulates public, routable IPv4 addresses (even though it really is a private address range). The cloud servers in this case are configured with routable IP addresses. This way, the clients can start communication with the data center, but not the other way around. You may want to change this so that the cloud servers are in a private address space [DONE], both for better security and to save on IPv4 addresses.
 
 The Router VM simulates the public Internet between the sites. It also provides a connection to the real Internet, which is needed for downloading software. To enable the routing, you need to start at minimum the client or server VM, the corresponding gateway VMs, and the Router VM. Then, connections from the client or server VM will be routed to the real Internet via the Router.
 
@@ -51,6 +51,19 @@ cd base/
 ```bash
 vagrant up
 ```
+---
+(*Hussam*) **Note**: Step 3 might be too memory intensive as is the case for my machine. I've created the script `project_manager.sh` to ease the network **setup** and **monitoring/testing**.
+
+---
+- `project_launcher.sh -a`<br/> ==> Launches Site A (one client and gateway), Router and Cloud (one server and gateway).
+- `project_launcher.sh -b`<br/> ==> Launches Site B (one client and gateway), Router and Cloud (one server and gateway).
+- `project_launcher.sh -s`<br/> ==> Starts multiple ssh sessions in new terminals to all Cloud servers and Site clients who are up at the moment. This allows for easier testing by [launching client and server apps](#markdown-header-client-and-server-apps).
+- `project_launcher.sh -m`<br/> ==> Start monitoring the network through the Router VM. Essentially runs `xterm -hold -e "vagrant ssh router -t -c 'sudo tcpdump -i enp0s8'"&`
+- `More` might be added later. 
+
+Everything else is specified in [the file](project_launcher.sh).
+
+---
 
 ### Useful Vagrant commands
 
