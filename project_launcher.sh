@@ -28,7 +28,7 @@ logs_folder="project_launcher_logs"
 
 ls_site_A="gateway-a client-a1" # Missing client-a2 because of my machine's memory limitations.
 ls_site_B="gateway-b client-b1" # Missing client-b2
-ls_cloud="gateway-s server-s1" # Missing server-s2
+ls_cloud="gateway-s server-s1 server-s2" # Missing server-s2
 ls_router="router" 
  
 ########## Utility Functions ##########
@@ -91,7 +91,7 @@ destroy_VMs(){
     echo "[INFO] Destroying any previously created VMs for $2..."
     for vm in $1; do
         vagrant destroy -f $vm >> "$PWD/${logs_folder}/vagrant_destory_debug.logs" 2>> "$PWD/${logs_folder}/vagrant_destory_error.logs"
-        echo_error $? "vagrant vagrant destroy -f $vm" "2"
+        echo_error $? "vagrant destroy -f $vm" "2"
         echo "${green}[OK] The vm '$vm' has been destroyed!${reset}"
     done
     vagrant status

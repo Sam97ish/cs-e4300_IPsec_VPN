@@ -14,7 +14,7 @@ npm install
 ## Configure client server IP to the cloud instead of on-site
 cat > config.json <<EOL
 {
-  "server_ip": "10.0.0.2",
+  "server_ip": "172.30.30.30",
   "server_port": "8080",
   "log_file": "/var/log/client.log"
 }

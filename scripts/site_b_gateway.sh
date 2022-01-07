@@ -21,9 +21,11 @@ config setup
 conn gateway-b-to-cloud-server
         authby=secret
         type=tunnel
+        leftfirewall=yes
         left=172.18.18.18
+        leftsubnet=172.18.18.18/32
         right=172.30.30.30
-        rightsubnet=10.0.0.0/24
+        rightsubnet=172.30.30.30/24
         keyexchange=ikev2
         ike=aes256-sha2_256-modp1024!
         esp=aes256-sha2_256!

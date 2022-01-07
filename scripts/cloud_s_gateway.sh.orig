@@ -4,26 +4,13 @@
 route add default gw 172.30.30.1
 
 ## NAT
-iptables --in-interface enp0s8 --append PREROUTING --table nat --protocol tcp --source 172.16.16.16 --destination 172.30.30.30 --dport 8080 --jump DNAT --to-destination 10.0.0.2:8080
-
-iptables --in-interface enp0s8 --append PREROUTING --table nat --protocol tcp --source 172.18.18.18 --destination 172.30.30.30 --dport 8080 --jump DNAT --to-destination 10.0.0.3:8080
-
-# No need for this, masquerade already does this.
-#iptables --append POSTROUTING --table nat --protocol tcp --destination 172.16.16.16 --jump SNAT --to-source 172.30.30.30
-
 iptables -t nat -A POSTROUTING -o enp0s8 -j MASQUERADE
 
-#iptables -t nat -I POSTROUTING -m policy --dir out --pol ipsec -j ACCEPT
-
 ## Firewall rules
-#iptables -A INPUT ! -s 10.0.0.0/24 -d 10.0.0.1 -j REJECT # Drop everything going to gateway-s that is coming from the private network.
-#iptables -P FORWARD DROP # Set defualt forwarding policy to drop
-
-#iptables -A FORWARD -p tcp -m tcp --dport 8080 -j ACCEPT # Accept packets to port 8080
-#iptables -A FORWARD -p tcp -m tcp --sport 8080 -j ACCEPT # Accept packets from port 8080
-
-#iptables -A FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT # Use state module to forward packets that are RELATED or ESTABLISHED, i.e related to a an established connection or is part of a established connection.
-#iptables -A FORWARD -i enp0s9 -o enp0s8 -j ACCEPT # Forward all outbound packets, interface enp0s9 is the private cloud network interface while enp0s8 is the interface leading to the "internet"
+iptables -A INPUT ! -s 10.0.0.0/24 -d 10.0.0.1 -j REJECT # Drop everything going to gateway-s that is coming from the private network.
+iptables -P FORWARD DROP # Set defualt forwarding policy to drop
+iptables -A FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT # Use state module to forward packets that are RELATED or ESTABLISHED, i.e related to a an established connection or is part of a established connection.
+iptables -A FORWARD -i enp0s9 -o enp0s8 -j ACCEPT # Forward all outbound packets, interface enp0s9 is the private cloud network interface while enp0s8 is the interface leading to the "internet"
 
 ## Save the iptables rules
 iptables-save > /etc/iptables/rules.v4
@@ -47,9 +34,8 @@ conn cloud-to-gateway-a
         type=tunnel
         leftfirewall=yes
         left=172.30.30.30
-        leftsubnet=172.30.30.30/32
+        leftsubnet=10.0.0.0/24
         right=172.16.16.16
-        rightsubnet=172.16.16.16/32
         keyexchange=ikev2
         ike=aes256-sha2_256-modp1024!
         esp=aes256-sha2_256!
@@ -66,9 +52,8 @@ conn cloud-to-gateway-b
         type=tunnel
         leftfirewall=yes
         left=172.30.30.30
-        leftsubnet=172.30.30.30/32        
+        leftsubnet=10.0.0.0/24
         right=172.18.18.18
-        rightsubnet=172.18.18.18/32
         keyexchange=ikev2
         ike=aes256-sha2_256-modp1024!
         esp=aes256-sha2_256!

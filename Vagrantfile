@@ -135,7 +135,7 @@ Vagrant.configure("2") do |config|
     client_a1.vm.provision :file, source: './apps/client_app',
       destination: "client_app"
     # Install dependencies and define the NAT
-    client_a1.vm.provision :shell, run: "always", path: "scripts/clientA.sh"
+    client_a1.vm.provision :shell, run: "always", path: "scripts/client.sh"
   end
 
   # Client A2
@@ -163,7 +163,7 @@ Vagrant.configure("2") do |config|
     client_a2.vm.provision :file, source: './apps/client_app',
       destination: "client_app"
     # Install dependencies and define the NAT
-    client_a2.vm.provision :shell, run: "always", path: "scripts/clientA.sh"
+    client_a2.vm.provision :shell, run: "always", path: "scripts/client.sh"
   end
 
   #######################

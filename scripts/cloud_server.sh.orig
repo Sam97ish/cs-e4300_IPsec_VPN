@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+## Traffic going to the internet
+route add default gw 10.0.0.1
+
+## Save the iptables rules
+iptables-save > /etc/iptables/rules.v4
+ip6tables-save > /etc/iptables/rules.v6
+
+## Install app
+cd /home/vagrant/server_app
+npm install
+
+# Download Docker.
+sudo apt-get update && sudo apt-get install -y ca-certificates curl gnupg lsb-release && curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null && sudo apt-get update && sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+  
+'cat > ./Dockerfile <<EOL
+FROM node:12-alpine 
+WORKDIR /app
+COPY . .
+RUN npm install
+CMD ["npm", "start"]
+EOL'
+
+# Write docker-compose.
+cat > docker-compose.yaml <<EOL
+version: "3.7"
+services:
+  serverc-s1:
+    image: node:12-alpine
+    command: bash -c "npm install && npm start"
+    ports:
+      - 3000:3000
+    working_dir: /app
+    volumes:
+      - ./:/app
+  serverc-s2:
+    image: node:12-alpine
+    command: bash -c "npm install && npm start"
+    ports:
+      - 3001:3001
+    working_dir: /app
+    volumes:
+      - ./:/app
+EOL
+
+
