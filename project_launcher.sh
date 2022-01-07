@@ -180,7 +180,12 @@ start_client_server(){
             # the following works but doesnt produce output to terminal...
             #xterm -hold -e vagrant ssh server-s1 -t -c 'cd server_app && eval $(npm start)'&
             echo "[INFO] Starting '$vm' ssh session in a new terminal..."
-            xterm -hold -e "vagrant ssh $vm"&
+            #xterm -hold -e "vagrant ssh $vm"&
+            x-terminal-emulator -e "vagrant ssh $vm"&
+            if [[ $1 -ne 0 ]]; then
+                echo "${red}[ERROR] It seems that you don't have a default terminal, trying with xterm instead...${reset}" >&2
+                xterm -hold -e "vagrant ssh $vm"&
+            fi            
         fi  
     done    
     
@@ -189,8 +194,11 @@ start_client_server(){
 start_router_monitoring(){
 
     echo "[INFO] Starting a new ssh session in Router to monitor network..."
-    xterm -hold -e "vagrant ssh router -t -c 'sudo tcpdump -i enp0s8'"&
-
+    x-terminal-emulator -e "vagrant ssh router -t -c 'sudo tcpdump -i enp0s8'"&
+    if [[ $1 -ne 0 ]]; then
+        echo "${red}[ERROR] It seems that you don't have a default terminal, trying with xterm instead...${reset}" >&2
+        xterm -hold -e "vagrant ssh router -t -c 'sudo tcpdump -i enp0s8'"&
+    fi     
 }
 
 ########## Main ##########
