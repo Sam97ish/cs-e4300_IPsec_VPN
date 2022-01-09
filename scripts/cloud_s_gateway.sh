@@ -16,14 +16,8 @@ iptables -t nat -A POSTROUTING -o enp0s8 -j MASQUERADE
 #iptables -t nat -I POSTROUTING -m policy --dir out --pol ipsec -j ACCEPT
 
 ## Firewall rules
-#iptables -A INPUT ! -s 10.0.0.0/24 -d 10.0.0.1 -j REJECT # Drop everything going to gateway-s that is coming from the private network.
-#iptables -P FORWARD DROP # Set defualt forwarding policy to drop
+iptables -A INPUT ! -s 10.0.0.0/24 -d 10.0.0.1 -j REJECT # Drop everything going to gateway-s that is coming from the private network.
 
-#iptables -A FORWARD -p tcp -m tcp --dport 8080 -j ACCEPT # Accept packets to port 8080
-#iptables -A FORWARD -p tcp -m tcp --sport 8080 -j ACCEPT # Accept packets from port 8080
-
-#iptables -A FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT # Use state module to forward packets that are RELATED or ESTABLISHED, i.e related to a an established connection or is part of a established connection.
-#iptables -A FORWARD -i enp0s9 -o enp0s8 -j ACCEPT # Forward all outbound packets, interface enp0s9 is the private cloud network interface while enp0s8 is the interface leading to the "internet"
 
 ## Save the iptables rules
 iptables-save > /etc/iptables/rules.v4

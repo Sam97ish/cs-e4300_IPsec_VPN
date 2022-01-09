@@ -28,7 +28,7 @@ logs_folder="project_launcher_logs"
 
 ls_site_A="gateway-a client-a1" # Missing client-a2 because of my machine's memory limitations.
 ls_site_B="gateway-b client-b1" # Missing client-b2
-ls_cloud="gateway-s server-s1 server-s2" # Missing server-s2
+ls_cloud="gateway-s server-s1" # Missing server-s2
 ls_router="router" 
  
 ########## Utility Functions ##########
