@@ -9,7 +9,7 @@
 ##
 ## DATE: [03/01/2022]
 ## 
-## VERSION: 0.9
+## VERSION: 1
 ##
 ## USAGE: project_launcher.sh [-a|b|c|d|s|m|h]
 ##
@@ -167,35 +167,39 @@ setup_VMs(){
 
 }
 
+# Opens an ssh session for all the clients and servers who are running.
 start_client_server(){
     
     servers=${ls_cloud[@]:10:${#ls_cloud}}
     clients="${ls_site_A[@]:10:${#ls_site_A}} ${ls_site_B[@]:10:${#ls_site_B}}"
     
     for vm in $servers $clients; do
+        
         status=`vagrant status $vm --machine-readable | grep state, | cut -d, -f4`
-        if [[ $status == "running" ]]; then
-            # launch server.
-            
+        
+        if [[ $status == "running" ]]; then   
+         
             # the following works but doesnt produce output to terminal...
             #xterm -hold -e vagrant ssh server-s1 -t -c 'cd server_app && eval $(npm start)'&
             echo "[INFO] Starting '$vm' ssh session in a new terminal..."
             #xterm -hold -e "vagrant ssh $vm"&
             x-terminal-emulator -e "vagrant ssh $vm"&
-            if [[ $1 -ne 0 ]]; then
+            if [[ $? -ne 0 ]]; then
                 echo "${red}[ERROR] It seems that you don't have a default terminal, trying with xterm instead...${reset}" >&2
                 xterm -hold -e "vagrant ssh $vm"&
-            fi            
+            fi    
+                    
         fi  
     done    
     
 }
 
+# Starts an ssh session to the router and executes tcpdump command for monitoring.
 start_router_monitoring(){
 
     echo "[INFO] Starting a new ssh session in Router to monitor network..."
     x-terminal-emulator -e "vagrant ssh router -t -c 'sudo tcpdump -i enp0s8'"&
-    if [[ $1 -ne 0 ]]; then
+    if [[ $? -ne 0 ]]; then
         echo "${red}[ERROR] It seems that you don't have a default terminal, trying with xterm instead...${reset}" >&2
         xterm -hold -e "vagrant ssh router -t -c 'sudo tcpdump -i enp0s8'"&
     fi     

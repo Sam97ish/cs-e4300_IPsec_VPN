@@ -1,5 +1,9 @@
 ###### CS-E4300 Network Security, Aalto University 2021-2022
 
+### Submitted by
+- Hussam Aldeen Alkhafaji
+- Mariam Mustafa
+
 ### Virtual network environment for student projects
 
 _Authors: Tuomas Aura, Aleksi Peltonen, Thanh Bui_
