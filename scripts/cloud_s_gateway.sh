@@ -8,6 +8,14 @@ iptables --in-interface enp0s8 --append PREROUTING --table nat --protocol tcp --
 
 iptables --in-interface enp0s8 --append PREROUTING --table nat --protocol tcp --source 172.18.18.18 --destination 172.30.30.30 --dport 8080 --jump DNAT --to-destination 10.0.0.3:8080
 
+iptables --in-interface enp0s8 --append INPUT --protocol tcp --source 172.16.16.16 --destination 172.30.30.30 -j ACCEPT
+
+iptables --in-interface enp0s8 --append INPUT --table filter --source 172.16.16.16 -j REJECT
+
+iptables --in-interface enp0s8 --append INPUT --protocol tcp --source 172.18.18.18 --destination 172.30.30.30 -j ACCEPT
+
+iptables --in-interface enp0s8 --append INPUT --table filter --source 172.18.18.18 -j REJECT
+
 # No need for this, masquerade already does this.
 #iptables --append POSTROUTING --table nat --protocol tcp --destination 172.16.16.16 --jump SNAT --to-source 172.30.30.30
 
